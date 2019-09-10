@@ -11,7 +11,7 @@
 </body>
 <script>
     var roomName = {{ room_name_json }};
-    var userName =  "{{ username}}";
+
 
     var chatSocket = new WebSocket(
         'ws://' + window.location.host +
@@ -20,12 +20,9 @@
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
         var message = data['message'];
-        var username = encodeURI(data['username']);
-      //   var user = $('li').filter(function () {
-      //   return $(this).data('username') == username;
-      // });
-
+        var username = encodeURI(data['username']);//newly added
         document.querySelector('#chat-log').value += (username+" : "+ message + '\n');
+
     };
 
     chatSocket.onclose = function(e) {

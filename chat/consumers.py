@@ -6,13 +6,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
-        self.user = self.scope["user"]
 
         # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
-            self.channel_name
+            self.channel_name,
+
         )
+
 
         await self.accept()
 
@@ -20,15 +21,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
-            self.channel_name
+            self.channel_name,
+
         )
 
     # Receive message from WebSocket
     async def receive(self, text_data):
-        # username_str = None
-        # username = self.scope["user"]
-        # if(username.is_authenticated()):
-        #     username_str = username.username
+        username_str = None #newly added
+        username = self.scope["user"] #newly added
+        username_str = username.username #newly added
 
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
@@ -38,23 +39,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message
+                'message': message,
+                'username': username_str #newly added
             }
         )
 
     # Receive message from room group
     async def chat_message(self, event):
         message = event['message']
-        username_str = None
-        username = self.scope["user"]
-        # # if(username.is_authenticated()):
-        username_str = username.username
-        # self.scope["session"].save()
-        #
-        # await login(self.scope, username)
+        username = event['username'] #newly added
+
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
-            'username':username_str
-            # 'user' : user
+            'username':username #newly added
+
         }))
