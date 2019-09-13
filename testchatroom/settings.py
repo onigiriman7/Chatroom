@@ -25,7 +25,7 @@ SECRET_KEY = '7q9l6*_2(uqdp!w_e6ps9f=tz$i!6_ity=1=pj%(8^_%4xmw(_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_twilio',
+    'accounts',
+    'sms',
+    'myemail',
 
 
 
@@ -52,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'testchatroom.middleware.LoginRequiredMiddleware'
 ]
 
 ROOT_URLCONF = 'testchatroom.urls'
@@ -83,9 +88,21 @@ CHANNEL_LAYERS = {
     },
 }
 
-
+# TWILIO_ACCOUNT_SID = "ACe3f82446d48c6a3cc77a6ad6adb259f7"
+# TWILIO_AUTH_TOKEN = "0a9c5b3d35ac1795c4c87f6b0c461d09"
+DJANGO_TWILIO_FORGERY_PROTECTION = False
+DJANGO_TWILIO_BLACKLIST_CHECK = True
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "saladassis18@gmail.com"
+EMAIL_HOST_PASSWORD = "mypass123$%"
+
+
 
 DATABASES = {
     'default': {
@@ -119,7 +136,7 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -127,6 +144,12 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL='/chat/'
+LOGIN_EXEMPT_URLS = (
+    'accounts/logout/',
+    'accounts/register/',
+    )
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

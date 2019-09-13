@@ -1,0 +1,13 @@
+{% extends 'chat/base.html' %}
+
+{% block body %}
+  <div class = 'container'>
+  <h1>Register</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form1.as_p}}
+    {{ form2.as_p}}
+    <button type="submit" class= "btn btn-danger">Submit</button>
+  </form>
+</div>
+{% endblock %}

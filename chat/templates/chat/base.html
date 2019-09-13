@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    {% block head %}
+    {% endblock %}
+    <title>
+      {% block title %}
+      {% endblock %}
+    </title>
+  </head>
+  <body>
+    {% block body %}
+    {% endblock %}
+    {% if user.is_authenticated %}
+    <a href= "{% url 'accounts:logout' %}" >Logout</a>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,5 @@
+{% extends 'chat/base.html' %}
+
+{% block body %}
+<a href="{% url 'sms:send' %}"><button class="btn btn-outline-primary">Send Message</button></a>
+{% endblock %}
